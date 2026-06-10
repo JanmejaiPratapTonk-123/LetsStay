@@ -21,3 +21,6 @@ To help homestay owners manage bookings and analyze guest feedback using AI-assi
 
 ## Status
 Project is currently in the initialization and planning phase.
+
+## Author
+Janmejai Pratap Tonk
