@@ -22,5 +22,13 @@ To help homestay owners manage bookings and analyze guest feedback using AI-assi
 ## Status
 Project is currently in the initialization and planning phase.
 
+## Project Structure
+
+LetsStay/
+├── frontend/
+├── backend/
+├── README.md
+└── .gitignore
+
 ## Author
 Janmejai Pratap Tonk
