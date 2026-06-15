@@ -1,11 +1,21 @@
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Card from "./components/Card";
+import Footer from "./components/Footer"
+
 function App() {
-  return (
-    <div className="min-h-screen bg-blue-500 flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-white">
-        LetsStay
-      </h1>
-    </div>
-  )
+	return (
+		<div className="App">
+			<Navbar />
+			<Hero />
+			<section className="pt-12 flex ">
+				<Card />
+				<Card />
+				<Card />
+			</section>
+			<Footer />
+		</div>
+	);
 }
 
-export default App
+export default App;
