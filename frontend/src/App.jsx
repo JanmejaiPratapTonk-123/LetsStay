@@ -1,20 +1,18 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Card from "./components/Card";
-import Footer from "./components/Footer"
+import { Routes, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
 	return (
-		<div className="App">
-			<Navbar />
-			<Hero />
-			<section className="pt-12 flex ">
-				<Card />
-				<Card />
-				<Card />
-			</section>
-			<Footer />
-		</div>
+		<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/about" element={<About />} />
+			<Route path="/login" element={<Login />} />
+			<Route path="/dashboard" element={<Dashboard />} />
+		</Routes>
 	);
 }
 
