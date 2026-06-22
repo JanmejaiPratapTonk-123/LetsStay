@@ -1,27 +1,25 @@
 function Card() {
-    return (
-        <section className="border-2 p-2 rounded-2xl">
-            <div>
-                <img src="https://tse2.mm.bing.net/th/id/OIP.HyPO0GQqnsGoMcauAHz_MQHaE7?r=0&cb=thfvnextfalcon2&rs=1&pid=ImgDetMain&o=7&rm=3" alt="House" />
-            </div>
+  return (
+    <div className="border-2 p-2 rounded-2xl">
+      <img
+        src="https://tse2.mm.bing.net/th/id/OIP.HyPO0GQqnsGoMcauAHz_MQHaE7?r=0&cb=thfvnextfalcon2&rs=1&pid=ImgDetMain&o=7&rm=3"
+        alt="House"
+        className="w-full h-40 object-cover rounded-lg"
+      />
 
-            <div>
-                <h2>
-                    Title
-                </h2>
-            </div>
+      <h2 className="mt-2 font-bold">
+        Title
+      </h2>
 
-            <div>
-                <p>
-                    Description
-                </p>
-            </div>
+      <p>
+        Description
+      </p>
 
-            <div>
-                <a href="">More Details</a>
-            </div>
-        </section>
-    );
+      <a href="#">
+        More Details
+      </a>
+    </div>
+  );
 }
 
 export default Card;
