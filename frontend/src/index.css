@@ -1,1 +1,25 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Typography: system font stack.
+ * Inter is used where already installed on the user's system (macOS, Windows 11+).
+ * In a future production build, Inter can be self-hosted via @font-face.
+ * No external font CDN is required during this UI phase.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

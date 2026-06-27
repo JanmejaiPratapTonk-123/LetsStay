@@ -8,13 +8,15 @@ import ComponentDemo from "./pages/ComponentDemo";
 
 function App() {
 	return (
-		<Routes>
-			<Route path="/" element={<Home />} />
-			<Route path="/about" element={<About />} />
-			<Route path="/login" element={<Login />} />
-			<Route path="/dashboard" element={<Dashboard />} />
-			<Route path="/components" element={<ComponentDemo />} />
-		</Routes>
+		<div className="min-h-screen bg-white text-black dark:bg-zinc-950 dark:text-white transition-colors duration-300">
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/about" element={<About />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/dashboard" element={<Dashboard />} />
+				<Route path="/components" element={<ComponentDemo />} />
+			</Routes>
+		</div>
 	);
 }
 
