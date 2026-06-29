@@ -1,0 +1,289 @@
+{
+  "info": {
+    "_postman_id": "7b4f342b-e237-4b02-b11a-9702d62bc90e",
+    "name": "LetsStay Week 4 APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49625117",
+    "_collection_link": "https://go.postman.co/collection/49625117-7b4f342b-e237-4b02-b11a-9702d62bc90e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GET All Properties",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/properties",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Property By ID",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/properties/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Properties",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/properties/search?q=goa",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "goa"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Property",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Lake House\",\r\n    \"location\": \"Udaipur\",\r\n    \"city\": \"Udaipur\",\r\n    \"country\": \"India\",\r\n    \"price\": 4800,\r\n    \"rating\": 4.8,\r\n    \"reviews\": 10,\r\n    \"type\": \"Villa\",\r\n    \"category\": \"Heritage\",\r\n    \"image\": \"/images/property-9.jpg\",\r\n    \"isFavorited\": false,\r\n    \"amenities\": [\r\n        \"WiFi\",\r\n        \"Kitchen\"\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/properties",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Property",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"price\": 5500,\r\n    \"rating\": 5\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/properties/9",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties",
+            "9"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Property",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/properties/9",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties",
+            "9"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Invalid ID",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/properties/99",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties",
+            "99"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST Missing Price",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/properties",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT Invalid ID",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"price\": 100\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/properties/99",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "properties",
+            "99"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Unknown Route",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/cats",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "cats"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
