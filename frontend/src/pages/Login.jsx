@@ -31,7 +31,7 @@ function Login() {
       <main className="flex-1 flex">
 
         {/* Left brand panel — desktop only */}
-        <div className="hidden lg:flex lg:w-2/5 bg-gradient-to-br from-violet-600 via-violet-700 to-indigo-700 flex-col justify-between p-12">
+        <div className="hidden lg:flex lg:w-2/5 bg-linear-to-br from-violet-600 via-violet-700 to-indigo-700 flex-col justify-between p-12">
           <Link to="/" className="text-2xl font-bold text-white">
             LetsStay
           </Link>
