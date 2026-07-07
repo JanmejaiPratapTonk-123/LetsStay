@@ -14,6 +14,9 @@
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
 </p>
 
 <p align="center">
@@ -36,10 +39,12 @@
 | ✅ | RESTful Express Backend |
 | ✅ | Frontend ↔ Backend Integration |
 | ✅ | CRUD Property APIs |
-| 🔄 | PostgreSQL Integration _(Next Phase)_ |
+| ✅ | PostgreSQL + Prisma ORM Integration |
+| ✅ | Deployment |
 | ⬜ | Authentication |
 | ⬜ | Booking System |
-| ⬜ | Deployment |
+
+> **Note:** The database schema already includes models for upcoming features such as users and bookings. The corresponding API endpoints and frontend functionality will be implemented in future phases.
 
 ---
 
@@ -49,8 +54,9 @@
 - 🚀 **Express.js REST API** with full CRUD and keyword search
 - 🔄 **Frontend ↔ Backend Integration** via a dedicated service layer
 - 📱 **Responsive UI** with mobile navigation and loading/error states
-- 📦 **In-memory Data Store** — PostgreSQL migration planned for next phase
-- 📐 **Clean MVC Architecture** — routes, controllers, middleware, services
+- 🗄️ PostgreSQL database hosted on Supabase
+- ⚡ Prisma ORM for type-safe database access
+- 📐 **Layered Architecture** — routes, controllers, middleware
 
 ---
 
@@ -58,7 +64,7 @@
 
 **LetsStay** is a full-stack homestay booking platform built with a **React + Vite** frontend and a **Node.js + Express** REST API backend. It lets users browse, search, and manage property listings through a clean, responsive interface.
 
-The React frontend communicates with the Express API through a centralized service layer (`propertyService.js`), keeping all network logic in one place. The backend currently uses in-memory data storage; a **PostgreSQL** migration is planned for the next development phase.
+The React frontend communicates with the Express API through a centralized service layer (`propertyService.js`), keeping all network logic in one place. The backend uses **PostgreSQL** hosted on Supabase with Prisma ORM for database management and type-safe queries. Data is stored persistently and relationships are managed through Prisma models and migrations.
 
 > Developed as part of the **TBI SIP 2026 AI-Assisted Full Stack Web Development Internship**, with a focus on clean architecture, separation of concerns, and progressive enhancement.
 
@@ -70,18 +76,18 @@ The React frontend communicates with the Express API through a centralized servi
 
 - 📱 **Responsive UI** — mobile-first layout with a collapsible navigation drawer
 - 🌙 **Dark Mode** — toggle persisted to `localStorage`, applied via Tailwind `dark:` classes
-- 🃏 **Property Cards** — image, location, price, star rating, and property type badge
-- 🏷️ **Category Filter** — filter pills that narrow the property grid by category
+- 🃏 **Property Cards** — image, location, price, star rating, and property type badge (currently rendered from frontend seed data)
+- 🏷️ **Category Filter** — filter pills that narrow the property grid by category (currently rendered from frontend seed data)
 - ⏳ **Loading State** — spinner displayed while awaiting the API response
 - ❌ **Error State** — descriptive error message shown if the backend is unreachable
-- 🧭 **Client-side Routing** — Client-side Routing using React Router.
+- 🧭 **Client-side Routing** — multi-page navigation using React Router
 
 ### Backend
 
-- 🔍 **Keyword Search** — case-insensitive search across title, location, type, and category
-- ➕ **Create Property** — `POST /api/properties` with `title` + `price` validation
+- 🔍 **Keyword Search** — case-insensitive search across `title` and `location`
+- ➕ **Create Property** — `POST /api/properties` with full field validation (`title`, `description`, `location`, `price`, `image`, `ownerId` — all required)
 - 📖 **Read Properties** — `GET /api/properties` and `GET /api/properties/:id`
-- ✏️ **Update Property** — `PUT /api/properties/:id` with safe field merge (ID always preserved)
+- ✏️ **Update Property** — `PUT /api/properties/:id` with full replacement (all fields required)
 - 🗑️ **Delete Property** — `DELETE /api/properties/:id` with proper 404 handling
 - 🚨 **Global Error Handler** — Express error middleware returning structured JSON responses
 
@@ -95,6 +101,8 @@ The React frontend communicates with the Express API through a centralized servi
 |---|---|
 | [Node.js](https://nodejs.org/) | JavaScript runtime |
 | [Express.js](https://expressjs.com/) | HTTP server & routing |
+| [Prisma ORM](https://www.prisma.io/) | Type-safe ORM |
+| [PostgreSQL (Supabase)](https://supabase.com/) | Relational Database |
 | [dotenv](https://github.com/motdotla/dotenv) | Environment variable management |
 | [cors](https://github.com/expressjs/cors) | Cross-origin resource sharing |
 | [Nodemon](https://nodemon.io/) | Development auto-restart (dev only) |
@@ -119,12 +127,15 @@ LetsStay/
 ├── backend/                        # Express REST API
 │   ├── controllers/
 │   │   └── propertyController.js   # Business logic for all property endpoints
-│   ├── routes/
-│   │   └── propertyRoutes.js       # Route → controller mapping (no logic)
+│   ├── lib/
+│   │   └── prisma.js               # Prisma Client configuration
 │   ├── middleware/
 │   │   └── errorHandler.js         # Centralized error handling middleware
-│   ├── data/
-│   │   └── properties.js           # In-memory data store (PostgreSQL in next phase)
+│   ├── prisma/
+│   │   ├── migrations/             # Database migration history
+│   │   └── schema.prisma           # Database schema
+│   ├── routes/
+│   │   └── propertyRoutes.js       # API routes
 │   ├── .env                        # Local environment variables (gitignored)
 │   ├── .env.example                # Environment variable template
 │   ├── package.json
@@ -132,6 +143,7 @@ LetsStay/
 │
 └── frontend/                       # React + Vite SPA
     ├── public/                     # Static assets
+    ├── package.json
     └── src/
         ├── components/             # Reusable UI components
         │   ├── Navbar.jsx
@@ -154,28 +166,16 @@ LetsStay/
         └── index.css               # Global styles
 ```
 
-> **Tip — Screenshots:** Add a `docs/` folder at the repository root to store screenshots referenced in the [Screenshots](#️-screenshots) section:
->
-> ```
-> docs/
-> ├── home.png
-> ├── dashboard.png
-> ├── network.png
-> └── architecture.png
-> ```
-
 ---
 
 ## 🎬 Demo
 
-The live demo will be added after the application is deployed.
+### Live Application
 
-Planned demo links:
-- 🌐 Frontend Application
-- 🔗 Backend REST API
-- 📬 Postman API Documentation
+- 🌐 **Frontend:** https://lets-stay.vercel.app/
+- ⚙️ **Backend API:** https://letsstay.onrender.com/
 
-Until deployment, the project can be run locally by following the **Getting Started** section.
+You can explore the application through the deployed frontend, which communicates with the Express backend hosted on Render.
 
 ---
 
@@ -183,8 +183,9 @@ Until deployment, the project can be run locally by following the **Getting Star
 
 ### Prerequisites
 
-- Node.js
+- Latest LTS version of Node.js
 - npm
+- PostgreSQL database (or a [Supabase](https://supabase.com/) project)
 
 ### 1. Clone the Repository
 
@@ -203,6 +204,13 @@ npm install
 
 # Create your local environment file
 cp .env.example .env
+# Edit .env and replace the placeholder values with your own Supabase database credentials.
+
+# Generate Prisma Client
+npx prisma generate
+
+# Run Prisma migrations to set up the database schema
+npx prisma migrate dev
 
 # Start the development server (with hot reload)
 npm run dev
@@ -241,6 +249,12 @@ cp backend/.env.example backend/.env
 ```env
 # Server port — the Express server will listen on this port
 PORT=5000
+
+# PostgreSQL connection string (used by Prisma via @prisma/adapter-pg)
+DATABASE_URL="postgresql://<user>:<password>@<host>:6543/<database>?pgbouncer=true"
+
+# Optional direct PostgreSQL connection (commonly used for Prisma migrations)
+DIRECT_URL="postgresql://<user>:<password>@<host>:5432/<database>"
 ```
 
 **`frontend` — optional**
@@ -277,8 +291,8 @@ All endpoints are prefixed with `/api/properties`. The server always responds wi
 | `GET` | `/api/properties` | Retrieve all property listings | — |
 | `GET` | `/api/properties/search?q={term}` | Case-insensitive keyword search | — |
 | `GET` | `/api/properties/:id` | Retrieve a single property by ID | — |
-| `POST` | `/api/properties` | Create a new property listing | `title`, `price` (required) |
-| `PUT` | `/api/properties/:id` | Update an existing property (merge) | Any property fields |
+| `POST` | `/api/properties` | Create a new property listing | `title`, `description`, `location`, `price`, `image`, `ownerId` |
+| `PUT` | `/api/properties/:id` | Update an existing property (full replacement) | `title`, `description`, `location`, `price`, `image`, `ownerId` |
 | `DELETE` | `/api/properties/:id` | Delete a property by ID | — |
 | `GET` | `/` | Health check — confirms server is running | — |
 
@@ -308,10 +322,11 @@ Content-Type: application/json
 
 {
   "title": "Beachside Cottage",
-  "price": 3500,
+  "description": "A cozy seaside retreat with ocean views",
   "location": "Goa",
-  "type": "cottage",
-  "category": "beach"
+  "price": 3500,
+  "image": "https://example.com/cottage.jpg",
+  "ownerId": 1
 }
 ```
 
@@ -321,7 +336,12 @@ PUT http://localhost:5000/api/properties/1
 Content-Type: application/json
 
 {
-  "price": 4200
+  "title": "Beachside Cottage",
+  "description": "A cozy seaside retreat with ocean views",
+  "location": "Goa",
+  "price": 4200,
+  "image": "https://example.com/cottage.jpg",
+  "ownerId": 1
 }
 ```
 
@@ -334,24 +354,9 @@ DELETE http://localhost:5000/api/properties/1
 
 | Status | Scenario |
 |--------|----------|
-| `400 Bad Request` | Missing required fields (`title` or `price`) |
+| `400 Bad Request` | Missing required fields (all fields are required for create/update) |
 | `404 Not Found` | Property ID does not exist / invalid route |
 | `500 Internal Server Error` | Unhandled server exception (caught by error middleware) |
-
----
-
-## 🗂️ Postman Collection
-
-A ready-to-import Postman collection covering all six endpoints is included in the repository:
-
-```
-backend/W4_APICollection_TBI-26100359.json
-```
-
-**To import:**
-1. Open Postman → **Import**
-2. Select `backend/W4_APICollection_TBI-26100359.json`
-3. All requests will be pre-configured with the correct URLs and sample bodies
 
 ---
 
@@ -366,7 +371,9 @@ Express Router  (propertyRoutes.js)
     ↓
 Controller  (propertyController.js)
     ↓
-Data Store  (in-memory → PostgreSQL)
+Prisma Client  (lib/prisma.js)
+    ↓
+PostgreSQL  (Supabase)
     ↓
 JSON Response  { success, data }
 ```
@@ -375,37 +382,39 @@ JSON Response  { success, data }
 
 ## 🖼️ Screenshots
 
-> 📸 Screenshots will be added after deployment and feature completion.
+> 📸 Screenshots will be added after feature completion.
 > To add screenshots, place images in a `docs/` folder at the repository root and update this section with standard Markdown image links.
 
 ---
 
 ## 🚀 Deployment
 
-Current Status
+### Current Status
 
-- Frontend: Local development (Vite)
-- Backend: Local development (Express)
+- ✅ Frontend: Vercel
+- ✅ Backend: Render
+- ✅ Database: PostgreSQL (Supabase)
 
-Future
+### Live URLs
 
-- Render / Railway / Vercel deployment planned after PostgreSQL integration.
+- 🌐 **Frontend:** https://lets-stay.vercel.app/
+- ⚙️ **Backend API:** https://letsstay.onrender.com/
 
 ---
 
 ## 🗺️ Development Roadmap
 
-- ✅ **Phase 1** — Project setup, React SPA, component architecture
-- ✅ **Phase 2** — RESTful API: full CRUD, keyword search, global error handling
-- ⬜ **Phase 3** — PostgreSQL: replace in-memory data store with a relational database
-- ⬜ **Phase 4** — Authentication: JWT-based login and protected routes
-- ⬜ **Phase 5** — Deployment: Render / Railway / Vercel
+- ✅ Phase 1 — Project setup, React SPA, component architecture
+- ✅ Phase 2 — RESTful API: CRUD, search, error handling
+- ✅ Phase 3 — PostgreSQL + Prisma ORM Integration
+- ✅ Phase 4 — Deployment (Vercel + Render + Supabase)
+- ⬜ Phase 5 — Authentication (JWT)
+- ⬜ Phase 6 — Booking System
 
 ---
 
 ## 🔮 Future Improvements
 
-- [ ] **PostgreSQL / Prisma** — persistent relational database replacing in-memory store
 - [ ] **JWT Authentication** — secure user registration, login, and protected routes
 - [ ] **Image Uploads** — property photos via Cloudinary or AWS S3
 - [ ] **Booking System** — availability calendar, reservation management
