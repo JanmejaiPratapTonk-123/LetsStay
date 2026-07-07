@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ComponentDemo from "./pages/ComponentDemo";
+import AdminCRUD from "./pages/AdminCRUD";
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/components" element={<ComponentDemo />} />
+				<Route path="/admin" element={<AdminCRUD />} />
 			</Routes>
 		</div>
 	);

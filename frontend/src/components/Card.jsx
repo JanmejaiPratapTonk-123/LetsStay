@@ -1,17 +1,17 @@
-import { MapPin, Star, Heart } from "lucide-react";
+import { MapPin, Heart } from "lucide-react";
 
 /**
- * Card — property listing card.
+ * Card component for displaying a property listing.
  *
- * Props mirror the PROPERTIES mock data shape in src/data/properties.js,
- * which itself mirrors the expected backend API response. No changes to
- * this component are required during backend integration — only the
- * parent page changes (import → useEffect + axios).
+ * Receives property data from the backend API
+ * and renders the property image, location,
+ * title, price, and favourite button.
  *
- * isFavorited is a static boolean during the UI phase.
- * Toggle functionality will be wired to the backend in the integration phase.
+ * Favourite functionality is currently static
+ * and will be connected to the backend later.
  */
-function Card({ image, title, location, price, rating, reviews, type, isFavorited = false }) {
+
+function Card({ image, title, location, price, isFavorited = false }) {
   return (
     <div className="group relative rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
 
@@ -25,11 +25,11 @@ function Card({ image, title, location, price, rating, reviews, type, isFavorite
       </div>
 
       {/* Property type badge — top left */}
-      <div className="absolute top-3 left-3">
+      {/* <div className="absolute top-3 left-3">
         <span className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm text-gray-700 dark:text-gray-200 text-xs font-medium px-2.5 py-1 rounded-full">
           {type}
         </span>
-      </div>
+      </div> */}
 
       {/* Favourite button — top right. Static during UI phase. */}
       <button
@@ -62,7 +62,7 @@ function Card({ image, title, location, price, rating, reviews, type, isFavorite
         </h3>
 
         {/* Rating */}
-        <div className="mt-1.5 flex items-center gap-1">
+        {/* <div className="mt-1.5 flex items-center gap-1">
           <Star size={13} className="fill-yellow-400 text-yellow-400 shrink-0" />
           <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
             {rating}
@@ -70,7 +70,7 @@ function Card({ image, title, location, price, rating, reviews, type, isFavorite
           <span className="text-xs text-gray-500 dark:text-zinc-400">
             ({reviews} reviews)
           </span>
-        </div>
+        </div> */}
 
         {/* Price */}
         <div className="mt-3 flex items-baseline gap-1">
