@@ -15,27 +15,44 @@ import {
   updateProperty,
   deleteProperty,
 } from "../controllers/propertyController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import { roleMiddleware } from "../middleware/roleMiddleware.js";
 
 const router = Router();
 
-// GET /api/properties — return all properties
+// ── Browse Properties ──────────────────────────────
+// Keep the public listing and search routes easy to reach from the client.
 router.get("/", getAllProperties);
 
-// GET /api/properties/search?q= — keyword search
-// IMPORTANT: registered BEFORE /:id so Express does not treat
-// the word "search" as a dynamic id parameter.
+// ── Search Properties ──────────────────────────────
+// Register this before /:id so Express does not treat "search" as a route param.
 router.get("/search", searchProperties);
 
-// GET /api/properties/:id — return one property
+// ── Property Detail ─────────────────────────────────
+// Expose individual listings by id for detail pages and edits.
 router.get("/:id", getPropertyById);
 
-// POST /api/properties — add a new property
-router.post("/", createProperty);
+// ── Protected Mutations ────────────────────────────
+// Require authentication for create, update, and delete operations.
+router.post(
+  "/",
+  authMiddleware,
+  roleMiddleware(["HOST", "ADMIN"]),
+  createProperty,
+);
 
-// PUT /api/properties/:id — update an existing property
-router.put("/:id", updateProperty);
+router.put(
+  "/:id",
+  authMiddleware,
+  roleMiddleware(["HOST", "ADMIN"]),
+  updateProperty,
+);
 
-// DELETE /api/properties/:id — remove a property
-router.delete("/:id", deleteProperty);
+router.delete(
+  "/:id",
+  authMiddleware,
+  roleMiddleware(["HOST", "ADMIN"]),
+  deleteProperty,
+);
 
 export default router;
