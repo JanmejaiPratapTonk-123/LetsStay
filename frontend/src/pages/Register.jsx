@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Eye, EyeOff, CheckCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom";
-import { login } from "../services/authService";
+import { register } from "../services/authService";
 
 const BRAND_FEATURES = [
   "Verified eco-friendly homestays across India",
@@ -12,37 +11,35 @@ const BRAND_FEATURES = [
   "24/7 guest support on every booking",
 ];
 
-/**
- * Login — authentication UI.
- *
- * Form is fully presentational during the UI phase.
- * onSubmit calls e.preventDefault() only — no API call.
- * Backend integration (POST /api/auth/login, JWT storage) is out of scope here.
- */
-function Login() {
+function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(password !== confirmPassword){
+      alert("Passwords do not match.");
+      return;
+    }
+
     try {
-      const data = await login(email, password);
+      const data = await register(name, email, password);
 
       if(!data.success){
         alert(data.message);
         return;
       }
 
-      localStorage.setItem("token", data.token);
+      alert("Registration Successful");
 
-      alert("Login Successful");
-
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Register error:", error);
 
       if (error instanceof Error) {
         alert(error.message);
@@ -85,17 +82,38 @@ function Login() {
         {/* Right form panel */}
         <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Create your account</h1>
             <p className="mt-2 text-sm text-gray-500 dark:text-zinc-400">
-              Sign in to continue to LetsStay.
+              Create an account to start booking with LetsStay.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
 
+              {/* Full Name */}
+              <div>
+                <label
+                  htmlFor="register-name"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                >
+                  Full Name
+                </label>
+                <div className="relative">
+                  <input
+                    id="register-name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your full name"
+                    required
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors"
+                  />
+                </div>
+              </div>
+
               {/* Email */}
               <div>
                 <label
-                  htmlFor="login-email"
+                  htmlFor="register-email"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
                 >
                   Email address
@@ -106,7 +124,7 @@ function Login() {
                     className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 pointer-events-none"
                   />
                   <input
-                    id="login-email"
+                    id="register-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -119,27 +137,48 @@ function Login() {
 
               {/* Password */}
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label
-                    htmlFor="login-password"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    Password
-                  </label>
-                  <a
-                    href="#"
-                    className="text-xs text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+                <label
+                  htmlFor="register-password"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                >
+                  Password
+                </label>
                 <div className="relative">
                   <input
-                    id="login-password"
+                    id="register-password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
+                    required
+                    className="w-full px-4 py-2.5 pr-11 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((p) => !p)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label
+                  htmlFor="register-confirm-password"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
+                >
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="register-confirm-password"
+                    type={showPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm your password"
                     required
                     className="w-full px-4 py-2.5 pr-11 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors"
                   />
@@ -159,7 +198,7 @@ function Login() {
                 type="submit"
                 className="w-full py-2.5 px-4 bg-violet-600 hover:bg-violet-700 active:bg-violet-800 text-white font-semibold text-sm rounded-xl transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 mt-2"
               >
-                Sign In
+                Create Account
               </button>
             </form>
 
@@ -187,12 +226,12 @@ function Login() {
             </button>
 
             <p className="mt-6 text-center text-sm text-gray-500 dark:text-zinc-400">
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <Link
-                to="/register"
+                to="/login"
                 className="text-violet-600 dark:text-violet-400 font-medium hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
               >
-                Sign up
+                Sign In
               </Link>
             </p>
           </div>
@@ -205,4 +244,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
