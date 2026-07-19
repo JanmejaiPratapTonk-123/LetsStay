@@ -3,9 +3,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import propertyRoutes from "./routes/propertyRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
+
 import errorHandler from "./middleware/errorHandler.js";
 
-import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
 app.use("/api/properties", propertyRoutes);
 
 app.use("/api/auth", authRoutes);
+
+app.use("/api/ai", aiRoutes);
 
 // ── Not Found ─────────────────────────────────────
 // Keep unmatched requests explicit instead of falling through silently.
