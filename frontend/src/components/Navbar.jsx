@@ -77,7 +77,7 @@ function Navbar() {
 
             <Link
               to="/ai-trip-planner"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-sm font-semibold shadow-md hover:scale-105 hover:shadow-lg transition"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 text-white text-sm font-semibold shadow-md hover:scale-105 hover:shadow-lg transition"
             >
               <Sparkles size={16} />
               AI Planner
@@ -194,7 +194,7 @@ function Navbar() {
             <Link
               to="/ai-trip-planner"
               onClick={() => setMobileOpen(false)}
-              className="mt-2 flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold"
+              className="mt-2 flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-linear-to-r from-violet-600 to-fuchsia-500 text-white font-semibold"
             >
               <Sparkles size={18} />
               AI Planner
