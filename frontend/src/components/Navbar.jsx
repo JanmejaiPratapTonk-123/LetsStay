@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { Sun, Moon, Menu, X, User } from "lucide-react";
+
+import { useAuth } from "../contexts/AuthContext";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -10,9 +12,12 @@ const NAV_LINKS = [
 
 function Navbar() {
   const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("theme") === "dark"
+    () => localStorage.getItem("theme") === "dark",
   );
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, token, logout } = useAuth();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -32,7 +37,6 @@ function Navbar() {
     <header className="sticky top-0 z-50 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-gray-100 dark:border-zinc-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-
           {/* Logo */}
           <Link
             to="/"
@@ -42,7 +46,10 @@ function Navbar() {
           </Link>
 
           {/* Desktop navigation */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
+          <nav
+            className="hidden md:flex items-center gap-8"
+            aria-label="Main navigation"
+          >
             {NAV_LINKS.map(({ to, label }) => (
               <NavLink
                 key={to}
@@ -64,8 +71,7 @@ function Navbar() {
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-
-            <button
+            {/* <button
               aria-label="Account"
               className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors duration-200"
             >
@@ -77,7 +83,34 @@ function Navbar() {
               className="ml-1 px-4 py-2 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-xl transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
             >
               Sign In
-            </Link>
+            </Link> */}
+            {token ? (
+              <div className="flex items-center gap-2">
+                <button
+                  aria-label="Account"
+                  className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors duration-200"
+                >
+                  <User size={20} />
+                </button>
+
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
+                  className="ml-1 px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="ml-1 px-4 py-2 text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 rounded-xl transition-colors duration-200"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* Mobile controls */}
@@ -89,6 +122,16 @@ function Navbar() {
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
+
+            {token && (
+              <button
+                aria-label="Account"
+                className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors duration-200"
+              >
+                <User size={20} />
+              </button>
+            )}
+
             <button
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -98,7 +141,6 @@ function Navbar() {
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
-
         </div>
       </div>
 
@@ -128,13 +170,34 @@ function Navbar() {
               </NavLink>
             ))}
 
-            <Link
+            {/* <Link
               to="/login"
               onClick={() => setMobileOpen(false)}
               className="mt-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 transition-colors duration-200 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
             >
               Sign In
-            </Link>
+            </Link> */}
+
+            {token ? (
+              <button
+                onClick={() => {
+                  logout();
+                  setMobileOpen(false);
+                  navigate("/");
+                }}
+                className="mt-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileOpen(false)}
+                className="mt-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-white bg-violet-600 hover:bg-violet-700 transition-colors duration-200 text-center"
+              >
+                Sign In
+              </Link>
+            )}
           </nav>
         </div>
       )}
