@@ -39,29 +39,49 @@ export async function fetchPropertyById(id) {
 }
 
 // POST /api/properties
-export async function createProperty(propertyData) {
+export async function createProperty(propertyData, token) {
+  const jwtToken = token || localStorage.getItem("token");
+  const headers = { "Content-Type": "application/json" };
+  if (jwtToken) {
+    headers["Authorization"] = `Bearer ${jwtToken}`;
+  }
+
   const res = await fetch(BASE_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(propertyData),
   });
   return handleResponse(res);
 }
 
 // PUT /api/properties/:id
-export async function updateProperty(id, propertyData) {
+export async function updateProperty(id, propertyData, token) {
+  const jwtToken = token || localStorage.getItem("token");
+  const headers = { "Content-Type": "application/json" };
+  if (jwtToken) {
+    headers["Authorization"] = `Bearer ${jwtToken}`;
+  }
+
   const res = await fetch(`${BASE_URL}/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(propertyData),
   });
   return handleResponse(res);
 }
 
 // DELETE /api/properties/:id
-export async function deleteProperty(id) {
+export async function deleteProperty(id, token) {
+  const jwtToken = token || localStorage.getItem("token");
+  const headers = {};
+  if (jwtToken) {
+    headers["Authorization"] = `Bearer ${jwtToken}`;
+  }
+
   const res = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE",
+    headers,
   });
   return handleResponse(res);
 }
+

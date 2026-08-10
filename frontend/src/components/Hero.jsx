@@ -11,10 +11,17 @@ import { MapPin, Calendar, Users, Search } from "lucide-react";
  * Will be replaced with a curated image served from backend/CDN in the
  * integration phase.
  */
-function Hero() {
+function Hero({ onSearch }) {
   const [location, setLocation] = useState("");
   const [dates, setDates] = useState("");
   const [guests, setGuests] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSearch) {
+      onSearch(location);
+    }
+  };
 
   return (
     <section
@@ -38,7 +45,10 @@ function Hero() {
         </p>
 
         {/* Search bar */}
-        <div className="mt-10 bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-2 text-left">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-10 bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-2 text-left"
+        >
           <div className="flex flex-col md:flex-row gap-1">
 
             {/* Location field */}
@@ -56,7 +66,7 @@ function Hero() {
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Search destinations"
+                  placeholder="Search destination or title"
                   className="w-full mt-0.5 text-sm text-gray-900 dark:text-white bg-transparent outline-none placeholder-gray-400 dark:placeholder-zinc-500"
                 />
               </div>
@@ -65,23 +75,26 @@ function Hero() {
             {/* Vertical divider — desktop only */}
             <div className="hidden md:block w-px bg-gray-200 dark:bg-zinc-700 self-stretch my-2" />
 
-            {/* Dates field */}
-            <div className="flex items-center gap-3 flex-1 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors duration-200">
+            {/* Dates field (UI placeholder) */}
+            <div
+              title="Date filtering coming soon"
+              className="flex items-center gap-3 flex-1 px-4 py-3 rounded-xl opacity-60 bg-gray-50 dark:bg-zinc-800/50 cursor-not-allowed"
+            >
               <Calendar size={18} className="text-violet-500 shrink-0" />
               <div className="flex-1 min-w-0">
                 <label
                   htmlFor="hero-dates"
                   className="block text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wide"
                 >
-                  When
+                  When (Coming Soon)
                 </label>
                 <input
                   id="hero-dates"
                   type="date"
+                  disabled
                   value={dates}
                   onChange={(e) => setDates(e.target.value)}
-                  placeholder="Add dates"
-                  className="w-full mt-0.5 text-sm text-gray-900 dark:text-white bg-transparent outline-none placeholder-gray-400 dark:placeholder-zinc-500"
+                  className="w-full mt-0.5 text-sm text-gray-400 dark:text-zinc-500 bg-transparent outline-none cursor-not-allowed"
                 />
               </div>
             </div>
@@ -89,31 +102,35 @@ function Hero() {
             {/* Vertical divider — desktop only */}
             <div className="hidden md:block w-px bg-gray-200 dark:bg-zinc-700 self-stretch my-2" />
 
-            {/* Guests field */}
-            <div className="flex items-center gap-3 flex-1 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors duration-200">
+            {/* Guests field (UI placeholder) */}
+            <div
+              title="Guest filtering coming soon"
+              className="flex items-center gap-3 flex-1 px-4 py-3 rounded-xl opacity-60 bg-gray-50 dark:bg-zinc-800/50 cursor-not-allowed"
+            >
               <Users size={18} className="text-violet-500 shrink-0" />
               <div className="flex-1 min-w-0">
                 <label
                   htmlFor="hero-guests"
                   className="block text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wide"
                 >
-                  Guests
+                  Guests (Coming Soon)
                 </label>
                 <input
                   id="hero-guests"
                   type="number"
+                  disabled
                   min={1}
                   value={guests}
                   onChange={(e) => setGuests(e.target.value)}
                   placeholder="Add guests"
-                  className="w-full mt-0.5 text-sm text-gray-900 dark:text-white bg-transparent outline-none placeholder-gray-400 dark:placeholder-zinc-500"
+                  className="w-full mt-0.5 text-sm text-gray-400 dark:text-zinc-500 bg-transparent outline-none cursor-not-allowed"
                 />
               </div>
             </div>
 
-            {/* Search button — presentational */}
+            {/* Search button */}
             <button
-              type="button"
+              type="submit"
               aria-label="Search properties"
               className="flex items-center justify-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-700 active:bg-violet-800 text-white text-sm font-semibold rounded-xl transition-colors duration-200 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
             >
@@ -122,7 +139,7 @@ function Hero() {
             </button>
 
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

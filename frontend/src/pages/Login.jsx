@@ -28,6 +28,18 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const getRedirectPathByRole = (role) => {
+    if (role === "ADMIN") {
+      return "/admin";
+    }
+
+    if (role === "HOST") {
+      return "/hostdashboard";
+    }
+
+    return "/dashboard";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,11 +51,11 @@ function Login() {
         return;
       }
 
-      login(data.user, data.token);
+      login(data.data, data.token);
 
       alert("Login Successful");
 
-      navigate("/dashboard");
+      navigate(getRedirectPathByRole(data?.data?.role));
     } catch (error) {
       console.error("Login error:", error);
 

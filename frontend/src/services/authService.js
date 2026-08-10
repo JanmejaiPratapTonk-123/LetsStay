@@ -30,3 +30,16 @@ export const register = async (name, email, password) => {
 
   return response.json();
 };
+
+export const getProfile = async (token) => {
+  const response = await fetch(`${API_URL}/api/auth/profile`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.json();
+};
+

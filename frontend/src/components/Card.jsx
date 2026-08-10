@@ -11,9 +11,12 @@ import { MapPin, Heart } from "lucide-react";
  * and will be connected to the backend later.
  */
 
-function Card({ image, title, location, price, isFavorited = false }) {
+function Card({ image, title, location, price, isFavorited = false, onClick }) {
   return (
-    <div className="group relative rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+    <div
+      onClick={onClick}
+      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+    >
 
       {/* Property image */}
       <div className="h-52 overflow-hidden">
@@ -24,17 +27,13 @@ function Card({ image, title, location, price, isFavorited = false }) {
         />
       </div>
 
-      {/* Property type badge — top left */}
-      {/* <div className="absolute top-3 left-3">
-        <span className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm text-gray-700 dark:text-gray-200 text-xs font-medium px-2.5 py-1 rounded-full">
-          {type}
-        </span>
-      </div> */}
-
-      {/* Favourite button — top right. Static during UI phase. */}
+      {/* Favourite button — top right */}
       <button
         type="button"
         aria-label="Save to wishlist"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
         className="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm hover:scale-110 transition-transform duration-200"
       >
         <Heart
@@ -61,21 +60,10 @@ function Card({ image, title, location, price, isFavorited = false }) {
           {title}
         </h3>
 
-        {/* Rating */}
-        {/* <div className="mt-1.5 flex items-center gap-1">
-          <Star size={13} className="fill-yellow-400 text-yellow-400 shrink-0" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            {rating}
-          </span>
-          <span className="text-xs text-gray-500 dark:text-zinc-400">
-            ({reviews} reviews)
-          </span>
-        </div> */}
-
         {/* Price */}
         <div className="mt-3 flex items-baseline gap-1">
           <span className="text-base font-bold text-gray-900 dark:text-white">
-            ₹{price.toLocaleString("en-IN")}
+            ₹{Number(price).toLocaleString("en-IN")}
           </span>
           <span className="text-xs text-gray-500 dark:text-zinc-400">/ night</span>
         </div>

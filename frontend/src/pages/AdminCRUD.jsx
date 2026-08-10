@@ -15,7 +15,6 @@ function AdminCRUD() {
     location: "",
     price: "",
     image: "",
-    ownerId: 1,
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -31,7 +30,7 @@ function AdminCRUD() {
 
   useEffect(() => {
     void loadProperties();
-}, []);
+  }, []);
 
   function handleChange(e) {
     setFormData({
@@ -44,21 +43,16 @@ function AdminCRUD() {
     e.preventDefault();
 
     try {
-      if (editingId) {
-        await updateProperty(editingId, {
-          ...formData,
-          price: Number(formData.price),
-          ownerId: Number(formData.ownerId),
-        });
+      const payload = {
+        ...formData,
+        price: Number(formData.price),
+      };
 
+      if (editingId) {
+        await updateProperty(editingId, payload);
         alert("Property Updated");
       } else {
-        await createProperty({
-          ...formData,
-          price: Number(formData.price),
-          ownerId: Number(formData.ownerId),
-        });
-
+        await createProperty(payload);
         alert("Property Created");
       }
 
@@ -68,11 +62,9 @@ function AdminCRUD() {
         location: "",
         price: "",
         image: "",
-        ownerId: 1,
       });
 
       setEditingId(null);
-
       loadProperties();
     } catch (err) {
       alert(err.message);
@@ -88,7 +80,6 @@ function AdminCRUD() {
       location: property.location,
       price: property.price,
       image: property.image,
-      ownerId: property.ownerId,
     });
   }
 
@@ -106,7 +97,7 @@ function AdminCRUD() {
 
   return (
     <div style={{ maxWidth: "900px", margin: "30px auto", padding: "20px" }}>
-      <h1>Admin CRUD Verification</h1>
+      <h1>Admin Property Management</h1>
 
       <form
         onSubmit={handleSubmit}
@@ -158,15 +149,6 @@ function AdminCRUD() {
           required
         />
 
-        <input
-          type="number"
-          name="ownerId"
-          placeholder="Owner ID"
-          value={formData.ownerId}
-          onChange={handleChange}
-          required
-        />
-
         <button type="submit">
           {editingId ? "Update Property" : "Create Property"}
         </button>
@@ -198,7 +180,7 @@ function AdminCRUD() {
           </p>
 
           <p>
-            <b>Price:</b> ₹{property.price}
+            <b>Price:</b> ₹{Number(property.price).toLocaleString("en-IN")}
           </p>
 
           <img
